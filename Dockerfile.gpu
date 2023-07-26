@@ -1,0 +1,20 @@
+FROM nvidia/cuda:11.7.1-cudnn8-runtime-ubuntu22.04
+
+ARG DEBIAN_FRONTEND=noninteractive
+RUN apt-get update && apt-get install -y \
+    ffmpeg \
+    git \
+    nvidia-cudnn \
+    python3 \
+    python3-pip \
+    python3-tk \
+    python-is-python3
+
+WORKDIR /Richard-roop
+
+COPY requirements.txt requirements.txt
+RUN pip install -r requirements.txt
+
+COPY . .
+
+ENTRYPOINT ["python", "/Richard-roop/run.py", "--gpu"]
